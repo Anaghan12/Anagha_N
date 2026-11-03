@@ -1,4 +1,4 @@
-name: CI
+name: Web Build
 on:
   push:
     branches: [ main ]
@@ -8,4 +8,12 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Workflow is working on Windows"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: dist
